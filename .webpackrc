@@ -1,0 +1,19 @@
+{
+	"extraBabelPlugins": [
+		["import",{"libraryName": "antd","libraryDirectory":"es","style":"css"}]
+	],
+	"proxy": {
+		"/apis/": {
+			"target": "http://jsonplaceholder.typicode.com/",
+			"changeOrigin": true,
+			"pathRewrite": { "^/apis/" : "" }
+		},
+		"/cnode/":{
+			"target": "https://cnodejs.org/api/v1/",
+			"changeOrigin": true,
+			"pathRewrite": {
+				"^/cnode/": ""
+			}
+		}
+	}
+}
