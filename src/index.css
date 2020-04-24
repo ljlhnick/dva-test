@@ -1,0 +1,17 @@
+
+html, body, :global(#root) {
+  height: 100%;
+}
+
+/* 
+login */
+.loginForm {
+  max-width: 300px;
+  min-height: 400px;
+}
+.loginFormForgot {
+  float: right;
+}
+.loginFormButton {
+  width: 100%;
+}
