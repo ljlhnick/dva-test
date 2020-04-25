@@ -6,17 +6,20 @@ export default {
     state: {
         users:[],
         fullNameList:[],
-        topics:[]
+        cityList: [],
+        topics:[],
+        tab:'ask'
     },
     reducers: {
         'setUsers'(state,payload){
             state.users = payload.data;
             state.fullNameList = _.map(payload.data, 'name');
+            state.cityList = _.map(payload.data, 'address["city"]');
             return state;
         },
-        'sayHello'(state,payload){
-            console.log('sayhello',payload);
-            return state
+        'setCity'(state,payload){
+            state.cityList = payload.data;
+            return {...state};
         },
         'setTopics'(state,payload){
             state.topics = payload.data;
@@ -24,14 +27,6 @@ export default {
         }
     },
     effects:{
-        *sayHelloAsync ({payload},{put, call}){
-            yield put({
-                type:'sayHello',
-                data:{
-                    name:'超人强'
-                }
-            })
-        },
         *getAllUserList({payload},{put,call}){
             let rawData = yield call(apis.testAjax);
             yield put({
@@ -39,8 +34,8 @@ export default {
                 data: rawData.data
             })
         },
-        *testTopic({payload},{put,call}){
-            let rawData = yield call(apis.testCnode);
+        *getTopic({payload},{put,call}){
+            let rawData = yield call(apis.testCnode, payload);
             yield put({
                 type:'setTopics',
                 data: rawData.data.data

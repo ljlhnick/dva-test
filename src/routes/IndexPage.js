@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Table ,List, Empty, Spin, Button, AutoComplete} from 'antd';
-import * as apis from "../services/example";
+import {Table , Empty, Spin, Button, AutoComplete, Form, DatePicker} from 'antd';
+import TabList from '../components/TabList'
 
 class IndexPage extends Component {
 
@@ -18,7 +18,6 @@ class IndexPage extends Component {
     setTimeout(()=>{
       this.setState({pageLoading: false});
     },1000);
-    console.log(this.props.loading);
   }
 
   getUserList = () => {
@@ -27,29 +26,25 @@ class IndexPage extends Component {
     })
   }
 
-  testTopicAsync = () => {
+  searchCity(city){
+    const {cityList} = this.props.index;
     this.props.dispatch({
-      type: 'index/testTopic',
+      type: 'index/setCity',
+      data: city ? cityList.filter(item => {return item.indexOf(city)>-1}) : cityList
     })
   }
 
-  testAsync = () => {
+  getTopicList = () => {
     this.props.dispatch({
-      type: 'index/sayHelloAsync',
-      data: {
-        name: '猪猪侠'
+      type: 'index/getTopic',
+      payload: {
+        tab: 'ask'
       }
     })
   }
 
-  testMockAsync = () => {
-    apis.testAjax().then((res) => {
-      console.log(res);
-    })
-  }
-
   render() {
-    const {users, topics, fullNameList ,loading} = this.props.index;
+    const {users, fullNameList, cityList ,loading} = this.props.index;
     const {current, pageLoading} = this.state;
     let columns = [
       {title: 'FullName', dataIndex:'name'},
@@ -64,8 +59,23 @@ class IndexPage extends Component {
     return (
       <div>
         <Spin spinning={pageLoading} size="large" tip="on loading">
+          <Form layout="inline" ref={React.createRef()}>
+            <Form.Item  label="fullName" name="fullName" rules={[{required: true}]}>
+              <AutoComplete dataSource={fullNameList} onSelect={(data) =>{console.log('select', data)}} onSearch={(data) =>{console.log('search', data)}} placeholder="search by fullName"></AutoComplete>
+            </Form.Item>
 
-          <AutoComplete dataSource={fullNameList.push('select one')} onSelect={(data) =>{console.log('select', data)}} onSearch={(data) =>{console.log('search', data)}} placeholder="search by fullName"></AutoComplete>
+            <Form.Item  label="city" name="city" rules={[{required: true, message:'this field is required!'}]}>
+              <AutoComplete style={{ width: 200 }} options={cityList} onSelect={(data) =>{console.log('select', data)}} onSearch={(data) =>{this.searchCity(data)}} placeholder="search by city"></AutoComplete>
+            </Form.Item>
+
+            <Form.Item>
+              <DatePicker label="date" rules={[{required: true, message:'select a date!'}]}></DatePicker>
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit">search</Button>
+            </Form.Item>
+          </Form>
 
           { users.length > 0 ? 
             <Table title={() => <div>用户信息列表</div>} 
@@ -87,18 +97,9 @@ class IndexPage extends Component {
             </React.Fragment>
           }
           
-          <Button type="primary" shape="round" onClick={this.testTopicAsync}>异步请求topic数据></Button>
-          <Button type="primary" onClick={this.testAsync}>异步事件{this.props.msg}></Button>
-          <Button type="ghost" onClick={this.testMockAsync}>异步请求mock数据</Button>
+          {/* <Button type="primary" shape="round" onClick={this.getTopicList}>异步请求topic数据</Button> */}
 
-          { topics.length > 0 ? 
-            <List header={<div>Topic总数 {topics.length}</div>} bordered dataSource={topics} renderItem={item => (
-              <List.Item>
-                <h3>{item.title}  {item.create_at}</h3>
-                <div dangerouslySetInnerHTML={{__html: item.content}}></div>
-              </List.Item>
-            )}></List>:''
-          }
+          <TabList/>
         </Spin>
         
       </div>
@@ -111,7 +112,6 @@ IndexPage.propTypes = {
 
 const mapStateToProps = ({index, loading}) =>{
   return {
-      msg:'hello',
       index,
       loading
   }
