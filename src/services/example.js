@@ -5,7 +5,7 @@ export function testAjax(){
 }
 
 export function testCnode(arg){
-  return arg.page ? request (`/cnode/topics?tab=${arg.tab}&page=${arg.page}`) : request (`/cnode/topics?tab=${arg.tab}`);
+  return arg.page ? request (`/cnode/topics?tab=${arg.tab}&page=${arg.page}&limit=${arg.pageSize}`) : request (`/cnode/topics?tab=${arg.tab}&limit=${arg.pageSize}`);
 }
   
 //获取mock数据，模拟接口请求

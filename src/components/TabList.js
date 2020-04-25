@@ -9,7 +9,8 @@ class TabList extends Component {
         this.props.dispatch({
             type: 'index/getTopic',
             payload: {
-              tab: 'ask'
+              tab: 'ask',
+              pageSize: 10
             }
         })
     }
@@ -26,7 +27,8 @@ class TabList extends Component {
         this.props.dispatch({
             type: 'index/getTopic',
             payload: {
-              tab: tab
+              tab: tab,
+              pageSize: 10
             }
         })
     }

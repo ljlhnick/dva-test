@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import { connect } from 'dva';
-import { List, Empty } from 'antd';
+import { List, Empty, Modal, Button } from 'antd';
 import moment from 'moment';
 
 class TopicList extends Component {
     constructor(){
       super();
       this.state= {
-        current: 1
+        current: 1,
+        visibleDetail: false,
+        title: '',
+        content: ''
       }
     }
 
@@ -18,9 +21,18 @@ class TopicList extends Component {
         type: 'index/getTopic',
         payload: {
           tab: tab,
-          page: page
+          page: page,
+          pageSize: 10
         }
-    })
+      })
+    }
+
+    showDetailModal(item){
+      this.setState({visibleDetail: true, title: item.title, content: item.content})
+    }
+
+    hideDetailModal(){
+      this.setState({visibleDetail: false})
     }
 
     render() {
@@ -33,7 +45,7 @@ class TopicList extends Component {
                      position="top"
                      pagination={{
                       current: current,
-                      pageSize: 40,
+                      pageSize: 10,
                       total: 200,
                       onChange: (page) =>{
                         this.getTopicByPage(page);
@@ -42,10 +54,19 @@ class TopicList extends Component {
                      header={<div>Topic总数 {topics.length}</div>} bordered dataSource={topics} renderItem={item => (
                     <List.Item>
                         <h3>{item.title}  {moment(item.create_at).format('YYYY-MM-DD hh:mm:ss A')}</h3>
+                        <Button type="primary" onClick={()=>{this.showDetailModal(item)}}>查看详情</Button>
                         {/* <div dangerouslySetInnerHTML={{__html: item.content}} style={{width: '200px'}}></div> */}
                     </List.Item>
                     )}></List> : <Empty description="List is empty"/>
             }
+            <Modal title={this.state.title}
+            visible={this.state.visibleDetail}
+            closable={false}
+            onOk={()=>{this.hideDetailModal()}}
+            onCancel={()=>{this.hideDetailModal()}} 
+            >
+            <div dangerouslySetInnerHTML={{__html: this.state.content}} style={{height: '200px', overflow: 'auto'}}></div>
+            </Modal>
         </div>
       );
     }
