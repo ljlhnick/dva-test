@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Table , Empty, Spin} from 'antd';
+import {Table , Empty, Spin, notification} from 'antd';
 import TabList from '../components/indexPage/TabList'
 import SearchIndex from '../components/indexPage/SearchIndex'
 
@@ -19,6 +19,18 @@ class IndexPage extends Component {
     setTimeout(()=>{
       this.setState({pageLoading: false});
     },1000);
+    this.notify();
+  }
+
+  notify(){
+    notification.open({
+      message: 'Notification this page',
+      description:
+        'This is user List and cnode of List',
+      onClick: () => {
+        notification.close()
+      },
+    });
   }
 
   getUserList = () => {
