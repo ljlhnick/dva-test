@@ -77,7 +77,7 @@ class IndexPage extends Component {
             </Form.Item>
           </Form>
 
-          { users.length > 0 ? 
+          { users && users.length > 0 ? 
             <Table title={() => <div>用户信息列表</div>} 
                   columns={columns} 
                   dataSource={users} 

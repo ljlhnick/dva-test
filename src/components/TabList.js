@@ -36,16 +36,16 @@ class TabList extends Component {
         <div>
             <Tabs defaultActiveKey="1" onChange={(index)=>{this.changeTab(index)}}>
               <TabPane tab="ask" key="1">
-                <TopicList/>
+                <TopicList tab="ask"/>
               </TabPane>
               <TabPane tab="share" key="2">
-                <TopicList/>
+                <TopicList tab="share"/>
               </TabPane>
               <TabPane tab="job" key="3">
-                <TopicList/>
+                <TopicList tab="job"/>
               </TabPane>
               <TabPane tab="good" key="4">
-                <TopicList/>
+                <TopicList tab="good"/>
               </TabPane>
             </Tabs>
         </div>
