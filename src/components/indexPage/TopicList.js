@@ -55,7 +55,6 @@ class TopicList extends Component {
                     <List.Item>
                         <h3>{item.title}  {moment(item.create_at).format('YYYY-MM-DD hh:mm:ss A')}</h3>
                         <Button type="primary" onClick={()=>{this.showDetailModal(item)}}>查看详情</Button>
-                        {/* <div dangerouslySetInnerHTML={{__html: item.content}} style={{width: '200px'}}></div> */}
                     </List.Item>
                     )}></List> : <Empty description="List is empty"/>
             }

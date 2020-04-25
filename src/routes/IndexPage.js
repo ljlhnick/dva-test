@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Table , Empty, Spin, Button, AutoComplete, Form, DatePicker} from 'antd';
-import TabList from '../components/TabList'
+import {Table , Empty, Spin} from 'antd';
+import TabList from '../components/indexPage/TabList'
+import SearchIndex from '../components/indexPage/SearchIndex'
 
 class IndexPage extends Component {
 
@@ -44,7 +45,7 @@ class IndexPage extends Component {
   }
 
   render() {
-    const {users, fullNameList, cityList ,loading} = this.props.index;
+    const {users ,loading} = this.props.index;
     const {current, pageLoading} = this.state;
     let columns = [
       {title: 'FullName', dataIndex:'name'},
@@ -59,23 +60,7 @@ class IndexPage extends Component {
     return (
       <div>
         <Spin spinning={pageLoading} size="large" tip="on loading">
-          <Form layout="inline" ref={React.createRef()}>
-            <Form.Item  label="fullName" name="fullName" rules={[{required: true}]}>
-              <AutoComplete dataSource={fullNameList} onSelect={(data) =>{console.log('select', data)}} onSearch={(data) =>{console.log('search', data)}} placeholder="search by fullName"></AutoComplete>
-            </Form.Item>
-
-            <Form.Item  label="city" name="city" rules={[{required: true, message:'this field is required!'}]}>
-              <AutoComplete style={{ width: 200 }} options={cityList} onSelect={(data) =>{console.log('select', data)}} onSearch={(data) =>{this.searchCity(data)}} placeholder="search by city"></AutoComplete>
-            </Form.Item>
-
-            <Form.Item>
-              <DatePicker label="date" rules={[{required: true, message:'select a date!'}]}></DatePicker>
-            </Form.Item>
-
-            <Form.Item>
-              <Button type="primary" htmlType="submit">search</Button>
-            </Form.Item>
-          </Form>
+          <SearchIndex/>
 
           { users && users.length > 0 ? 
             <Table title={() => <div>用户信息列表</div>} 
@@ -96,12 +81,9 @@ class IndexPage extends Component {
               <Empty/>
             </React.Fragment>
           }
-          
-          {/* <Button type="primary" shape="round" onClick={this.getTopicList}>异步请求topic数据</Button> */}
 
           <TabList/>
         </Spin>
-        
       </div>
     );
   }
