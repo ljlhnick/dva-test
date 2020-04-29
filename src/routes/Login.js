@@ -3,9 +3,6 @@ import { connect } from 'dva';
 import LoginCom from '../components/Login';
 
 class Login extends React.Component {
-    componentWillMount(){
-        console.log(this.props.login);
-    }
     setUserName = (value) => {
         this.props.dispatch({
             type: 'login/setUserName',
@@ -13,24 +10,29 @@ class Login extends React.Component {
         })
     }
 
-    setPassWord = (value) =>{
+    setPassWord = (value) => {
         this.props.dispatch({
             type:'login/setPassWord',
             passWord: value
         })
     }
 
-    submit = () =>{
+    submit = () => {
         this.props.dispatch({
             type:'login/canSubmit'
         })
-        
+    }
+
+    resetForm = () => {
+        this.props.dispatch({
+            type:'login/resetForm'
+        });
     }
 
     render() {
         return (
-            <div>
-                <LoginCom user={this.props.login.user} inputUserName={this.setUserName} inputPassWord={this.setPassWord} logIn={this.submit}></LoginCom>
+            <div style={{background: '#000', height: '100%'}}>
+                <LoginCom user={this.props.login.user} inputUserName={this.setUserName} inputPassWord={this.setPassWord} logIn={this.submit} reset={this.resetForm}></LoginCom>
             </div>
         )
     }

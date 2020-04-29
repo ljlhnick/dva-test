@@ -1,6 +1,7 @@
 import React from 'react';
 import {Route, Switch, routerRedux } from 'dva/router';
 import dynamic from 'dva/dynamic';
+
 const { ConnectedRouter } = routerRedux;
 
 function RouterConfig({ history, app}) {
@@ -22,6 +23,11 @@ function RouterConfig({ history, app}) {
       name:'login',
       models: () => [import('./models/login')],
       component: () => import('./routes/Login')
+    },
+    {
+      path: '*',
+      name: 'notFound',
+      component: () => import('./routes/NotFound')
     }
   ]
   return (

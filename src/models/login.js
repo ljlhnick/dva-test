@@ -24,6 +24,11 @@ export default {
             }
             console.log(state);
             return state;
+        },
+        'resetForm'(state, payload){
+            state.user.userName = '';
+            state.user.passWord = '';
+            return {...state};
         }
     }
 }

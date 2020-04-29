@@ -5,6 +5,15 @@ html, body, :global(#root) {
 
 /* 
 login */
+.loginPage{
+  position: absolute;
+  width: 300px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  margin-top: -200px;
+  margin-left: -150px;
+}
 .loginForm {
   max-width: 300px;
   min-height: 400px;

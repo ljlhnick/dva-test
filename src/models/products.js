@@ -11,7 +11,7 @@ export default {
     },
     reducers: {
         'delete'(state, { payload: id }) {
-            state.toDoList = state.toDoList.filter(item => item.id != id);
+            state.toDoList = state.toDoList.filter(item => item.id !== id);
             return { ...state };
         },
         'add'(state, { payload: value }) {
@@ -31,24 +31,12 @@ export default {
             });
             return { ...state };
         },
-        'sayHello'(state, payload) {
-            console.log('sayhello', payload);
-            return state
-        },
-        'testPath'(state, payload) {
+        'loadProductPage'(state) {
             console.log("products page", state)
             return state;
         }
     },
     effects: {
-        *sayHelloAsync({ payload }, { put, call }) {
-            yield put({
-                type: 'sayHello',
-                data: {
-                    name: '超人强'
-                }
-            })
-        },
         *testAjax({ payload }, { put, call }) {
             let rel = yield call(apis.testAjax)
             console.log(rel);
@@ -59,7 +47,7 @@ export default {
             history.listen(({ pathname }) => {
                 if (pathname === "/products") {
                     dispatch({
-                        type: 'testPath'
+                        type: 'loadProductPage'
                     })
                 }
             })

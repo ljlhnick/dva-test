@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {Table, Popconfirm, Button} from 'antd';
 import {connect} from 'dva'
 
 const ProductList = ({onDelete,products,loading}) => {
-    //console.log("test ui",loading);
+    const [currentPage, setPage] = useState(1);
     const columns =[
         {
             title: 'Name',
@@ -19,13 +19,16 @@ const ProductList = ({onDelete,products,loading}) => {
         },
         {
             title:'是否完成',
-            dataIndex:'finished'
+            dataIndex:'finished',
+            render:(value) => {
+                return value ? '是': '否'
+            }
         },
         {
             title: '操作',
             render: (text, record) => {
                 return (
-                    <Popconfirm title="Delete?" onConfirm={() => onDelete(record.id)} key={record.id}>
+                    <Popconfirm title="Are you delete this task?" onConfirm={() => onDelete(record.id)} key={record.id}>
                         <Button>Delete</Button>
                     </Popconfirm>
                 )
@@ -35,6 +38,16 @@ const ProductList = ({onDelete,products,loading}) => {
     return(
         <div>
             <Table bordered title={()=><div>abby.luo已经完成了的事项</div>}
+            pagination={
+                {
+                    current: currentPage,
+                    pageSize: 3,
+                    total: products.length,
+                    onChange: (page) =>{
+                        setPage(page);
+                    }
+                }
+            }
             dataSource={products} columns={columns} rowKey='name'/>
         </div>
     )
